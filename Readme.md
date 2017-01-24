@@ -1,4 +1,4 @@
-h3. Groovy RSpace API client
+### Groovy RSpace API client
 
 This project shows some examples of calling the RSpace API from a Groovy script.
 
