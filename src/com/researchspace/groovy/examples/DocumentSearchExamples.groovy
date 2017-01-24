@@ -5,15 +5,22 @@ import groovyx.net.http.*
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
 import  groovy.json.*
-
+     //replace this with your RSpace URL
 	 rspaceUrl = "https://demo.researchspace.com/api/v1";
-	 documents = rspaceUrl + "/documents?orderBy=name%20asc"
-	 key = "4FmuGC6OCVlW8QqNNz448PEMCutJtgBL"
+	 
+	 //Set in your RSpace API key here via a -D command line property
+	 key = System.getProperty("apiKey")
+	 
+	 // A Fixed delay between requests
 	 DELAY = 1000
+	 
+	 // by default we'll order results by name
+	 documents = rspaceUrl + "/documents?orderBy=name%20asc"
 	 
 	 searchByDateRangeLastModified("2016-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 	 searchByDateRangeCreated("2015-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 	
+	// retrieves documents one page at a time by looking for URLs in 'next' links
 	def iterateDocs (String url) {
 		def http = new HTTPBuilder(url)
 		http.request(GET,JSON) { req ->
@@ -35,7 +42,7 @@ import  groovy.json.*
 			response.'500' = { resp -> println " Internal server error " }
 		}
 	}
-	//iterateDocs(documents);
+	
 	def searchByName (String name) {
 		search = [terms:[[query:name, queryType:"name"]]]
 		doSearch(search)
@@ -60,7 +67,7 @@ import  groovy.json.*
 		search = [terms:[[query: iso8601Date, queryType:"created"]]]
 		doSearch(search)
 	}
-	
+	// Date syntax is dateFrom;dateTo
 	void searchByDateRangeCreated (String iso8601DateFrom, iso8601DateTo) {
 		search = [terms:[[query: iso8601DateFrom+";" + iso8601DateTo, queryType:"created"]]]
 		doSearch(search)
@@ -69,8 +76,11 @@ import  groovy.json.*
 	private doSearch(Map search) {
 		searchAsJson = JsonOutput.toJson(search);
 		println"json query is " + searchAsJson
+		
+		//remember to URL encode your JSON string!
 		encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
 		documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
+		// now return lists one page at a time.
 		iterateDocs(documentSearchUrl)
 	}
 	
