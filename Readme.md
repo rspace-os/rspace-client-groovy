@@ -77,7 +77,7 @@ A simple search can be run by adding  a search parameter to the query string:
 
 ```groovy
   
-    url = "https://myrspace.com?query=mysearchQuery"
+    url = "https://myrspace.com/api/v1?query=mysearchQuery"
 
 ```
 
