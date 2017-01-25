@@ -9,10 +9,9 @@ import  groovy.json.*
  */
 abstract class BaseClient {
 
-	def rspaceUrl = "https://demo.researchspace.com/api/v1";
+	def rspaceUrl
 
-	//Set in your RSpace API key here via a -D command line property
-	def  key = System.getProperty("apiKey")
+	def  key 
 
 	// A Fixed DELAY_MILLIS between requests in millis
 	def DELAY_MILLIS = 1000
