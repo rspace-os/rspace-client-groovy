@@ -81,17 +81,16 @@ A simple search can be run by adding  a search parameter to the query string:
 
 ```
 
-
 Here are some examples of advanced search constructs:
 
 ```groovy
 
    
 	// search by tag:
-	search = [terms:[[query:name, queryType:"tag"]]]
+	search = [terms:[[query:"ATag", queryType:"tag"]]]
 	
 	// by name
-	search = [terms:[[query:name, queryType:"name"]]]
+	search = [terms:[[query:"AName", queryType:"name"]]]
 	
 	// for items created on a given date using IS0-8601 or yyyy-MM-dd format
 	search = [terms:[[query:"2016-07-23", queryType:"created"]]]
@@ -105,6 +104,9 @@ Here are some examples of advanced search constructs:
 
     // search for documents created from a given form:
     search = [terms:[[query:"Basic Document", queryType:"form"]]]
+    
+    // search for documents created from a given form and a specific tag:
+    search = [operand:"and", terms:[[query:"Basic Document", queryType:"form"], [query:"ATag", queryType:"tag"]]]
 		                            	
 ```
 
@@ -112,15 +114,16 @@ To submit these queries, serialise them to JSON, URL escape and submit:
 
 ```groovy
 
-        // convert your search object to JSON
-        searchAsJson = JsonOutput.toJson(search);
+    // convert your search object to JSON
+    searchAsJson = JsonOutput.toJson(search);
         	
-		//remember to URL-encode your JSON string!
-		encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
+    //remember to URL-encode your JSON string!
+    encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
 		
-		// construct the URL
-		documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
+	// construct the URL
+	documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
 		
-		// now list one page at a time.
-		iterateDocs(documentSearchUrl)
+	// now list one page at a time.
+	iterateDocs(documentSearchUrl)
+	
 ```
