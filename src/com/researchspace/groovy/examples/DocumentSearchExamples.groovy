@@ -19,6 +19,13 @@ import  groovy.json.*
 	 
 	 searchByDateRangeLastModified("2016-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 	 searchByDateRangeCreated("2015-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
+	 
+//	 search = [operand:"or",terms:[[query:"2015-07-06", queryType:"lastModified"],
+//		                            [query:"2015-07-07", queryType:"lastModified"] ]]
+	 
+	 search = [terms:[[query:"Basic Document", queryType:"form"]]]
+	          
+	 doSearch (search)
 	
 	// retrieves documents one page at a time by looking for URLs in 'next' links
 	def iterateDocs (String url) {
@@ -30,11 +37,11 @@ import  groovy.json.*
 				println "Looking at page ${json.pageNumber}"
 				println(String.format("%-50s%-20s%-20s" , "Name", "Id", "LastModified"))
 				json.documents.each  {println(String.format("%-50s%-20s%-20s", it.name, it.id, it.lastModified))}
-				next_link = json._links.findAll{it.rel == 'next'}.collect {it.link};
+				next_link = json._links.find{it.rel == 'next'}
 				Thread.currentThread().sleep(DELAY);
-				if(!next_link.empty) {
+				if(next_link != null) {
 					println("next link is ${next_link}")
-					iterateDocs(next_link[0])
+					iterateDocs(next_link.link)
 				}
 			}
 			response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
