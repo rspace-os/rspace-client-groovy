@@ -1,5 +1,5 @@
 package com.researchspace.groovy.examples
-@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7')
+//@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7')
 import groovyx.net.http.*
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
