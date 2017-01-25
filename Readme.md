@@ -28,25 +28,25 @@ First of all we'll define our URL and get our key from a system property.
     import  groovy.json.*
 
     //replace this with your RSpace URL
-	rspaceUrl = "https://demo.researchspace.com/api/v1";
-	 
-	//Set in your RSpace API key here via a -D command line property
-	key = System.getProperty("apiKey")
-	 
-	// A Fixed delay between requests
-	DELAY = 1000
-	 
-	// by default we'll order results by name
+    rspaceUrl = "https://demo.researchspace.com/api/v1";
+     
+    //Set in your RSpace API key here via a -D command line property
+    key = System.getProperty("apiKey")
+     
+    // A Fixed delay between requests
+    DELAY = 1000
+     
+    // by default we'll order results by name
     documents = rspaceUrl + "/documents?orderBy=name%20asc"
-	def http = new HTTPBuilder(url)
-	
-	// This is the simplest request - it will retrieve a first page of documents ordered by name.
-	http.request(GET,JSON) { req ->
-		headers.'apiKey' = key
-		response.success = { resp, json ->
-			println "Query response: ${json}"
-		}
-	}
+    def http = new HTTPBuilder(url)
+    
+    // This is the simplest request - it will retrieve a first page of documents ordered by name.
+    http.request(GET,JSON) { req ->
+        headers.'apiKey' = key
+        response.success = { resp, json ->
+            println "Query response: ${json}"
+        }
+    }
 
 ```
 
@@ -67,9 +67,9 @@ Using this approach we can iterate through pages of results, getting summary inf
 ```groovy
     next_link = json._links.find{it.rel == 'next'};
     if (next_link != null) {
-	    println("next link is ${next_link.link}")
-		// fetch next page of results
-	}
+        println("next link is ${next_link.link}")
+        // fetch next page of results
+    }
 ```
 
 A complete example of this is the `iterateDocs` method in `DocumentSearch.groovy`.
@@ -92,28 +92,28 @@ Here are some examples of advanced search constructs:
 ```groovy
 
    
-	// search by tag:
-	search = [terms:[[query:"ATag", queryType:"tag"]]]
-	
-	// by name
-	search = [terms:[[query:"AName", queryType:"name"]]]
-	
-	// for items created on a given date using IS0-8601 or yyyy-MM-dd format
-	search = [terms:[[query:"2016-07-23", queryType:"created"]]]
-	
-	// for items modified between 2  dates using IS0-8601 or yyyy-MM-dd format
-	search = [terms:[[query:"2016-07-23;2016-08-23 ", queryType:"lastModified"]]]
-	
-	// for items last modified on either of 2  dates:
-	search = [operand:"or",terms:[[query:"2015-07-06", queryType:"lastModified"],
-		                            [query:"2015-07-07", queryType:"lastModified"] ]
+    // search by tag:
+    search = [terms:[[query:"ATag", queryType:"tag"]]]
+    
+    // by name
+    search = [terms:[[query:"AName", queryType:"name"]]]
+    
+    // for items created on a given date using IS0-8601 or yyyy-MM-dd format
+    search = [terms:[[query:"2016-07-23", queryType:"created"]]]
+    
+    // for items modified between 2  dates using IS0-8601 or yyyy-MM-dd format
+    search = [terms:[[query:"2016-07-23;2016-08-23 ", queryType:"lastModified"]]]
+    
+    // for items last modified on either of 2  dates:
+    search = [operand:"or",terms:[[query:"2015-07-06", queryType:"lastModified"],
+                                    [query:"2015-07-07", queryType:"lastModified"] ]
 
     // search for documents created from a given form:
     search = [terms:[[query:"Basic Document", queryType:"form"]]]
     
     // search for documents created from a given form and a specific tag:
     search = [operand:"and", terms:[[query:"Basic Document", queryType:"form"], [query:"ATag", queryType:"tag"]]]
-		                            	
+                                        
 ```
 
 To submit these queries, serialise them to JSON, URL escape and submit:
@@ -122,18 +122,38 @@ To submit these queries, serialise them to JSON, URL escape and submit:
 
     // convert your search object to JSON
     searchAsJson = JsonOutput.toJson(search);
-        	
+            
     //remember to URL-encode your JSON string!
     encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
-		
+        
     // construct the URL
     documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
-		
+        
     // now list one page at a time.
-    iterateDocs(documentSearchUrl)	
+    iterateDocs(documentSearchUrl)    
 ```
 
 ### Retrieving document content
 
-Content can be retrieved from the endpoint /documents/{id} where {id} is a documentID
-Here is an example retrieving a document in CSV format:
+Content can be retrieved from the endpoint /documents/{id} where {id} is a documentID.
+
+Here is an example retrieving a document in CSV format taken  from `DocumentAsCSV.groovy` script:
+
+```groovy
+    //replace this with your RSpace URL
+    rspaceUrl = "https://demo.researchspace.com/api/v1";
+
+    //Set in your RSpace API key here via a -D command line property
+    key = System.getProperty("apiKey")
+ 
+    DocumentAsCSV csvRetriever = new DocumentAsCSV (key: key, rspaceUrl: rspaceUrl)
+      
+    //gets all documents created from 'BasicDocument' form in CSV format.
+    // This is useful for extracting content to put in a database, for example. 
+    csvRetriever.searchByFormAndRetrieveAsCSV("Basic Document")
+
+```
+
+### Getting attached files
+
+Here's an example where we download file attachments associated with some documents
