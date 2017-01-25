@@ -126,14 +126,14 @@ To submit these queries, serialise them to JSON, URL escape and submit:
     //remember to URL-encode your JSON string!
     encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
 		
-	// construct the URL
-	documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
+    // construct the URL
+    documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
 		
-	// now list one page at a time.
-	iterateDocs(documentSearchUrl)
-	
+    // now list one page at a time.
+    iterateDocs(documentSearchUrl)	
 ```
 
 ### Retrieving document content
 
 Content can be retrieved from the endpoint /documents/{id} where {id} is a documentID
+Here is an example retrieving a document in CSV format:
