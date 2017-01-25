@@ -5,27 +5,28 @@ import groovyx.net.http.*
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
 import  groovy.json.*
-     //replace this with your RSpace URL
-	 rspaceUrl = "https://demo.researchspace.com/api/v1";
+
+    //replace this with your RSpace URL
+	rspaceUrl = "https://demo.researchspace.com/api/v1";
 	 
-	 //Set in your RSpace API key here via a -D command line property
-	 key = System.getProperty("apiKey")
+	//Set in your RSpace API key here via a -D command line property
+	key = System.getProperty("apiKey")
 	 
-	 // A Fixed delay between requests
-	 DELAY = 1000
+	// A Fixed delay between requests
+	DELAY = 1000
 	 
-	 // by default we'll order results by name
-	 documents = rspaceUrl + "/documents?orderBy=name%20asc"
+	// by default we'll order results by name
+	documents = rspaceUrl + "/documents?orderBy=name%20asc"
 	 
-	 searchByDateRangeLastModified("2016-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
-	 searchByDateRangeCreated("2015-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
+	searchByDateRangeLastModified("2016-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
+    searchByDateRangeCreated("2015-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 	 
-//	 search = [operand:"or",terms:[[query:"2015-07-06", queryType:"lastModified"],
+//	search = [operand:"or",terms:[[query:"2015-07-06", queryType:"lastModified"],
 //		                            [query:"2015-07-07", queryType:"lastModified"] ]]
 	 
-	 search = [terms:[[query:"Basic Document", queryType:"form"]]]
+	search = [terms:[[query:"Basic Document", queryType:"form"]]]
 	          
-	 doSearch (search)
+	doSearch (search)
 	
 	// retrieves documents one page at a time by looking for URLs in 'next' links
 	def iterateDocs (String url) {
@@ -35,8 +36,8 @@ import  groovy.json.*
 			response.success = { resp, json ->
 				println "Query response: ${json}"
 				println "Looking at page ${json.pageNumber}"
-				println(String.format("%-50s%-20s%-20s" , "Name", "Id", "LastModified"))
-				json.documents.each  {println(String.format("%-50s%-20s%-20s", it.name, it.id, it.lastModified))}
+				println(String.format("%-50s%-10s%-30s%-20s" , "Name", "Id", "LastModified", "Owner"))
+				json.documents.each  {println(String.format("%-50s%-10s%-30s%-20s", it.name, it.id, it.lastModified, it.owner.username))}
 				next_link = json._links.find{it.rel == 'next'}
 				Thread.currentThread().sleep(DELAY);
 				if(next_link != null) {
@@ -82,10 +83,12 @@ import  groovy.json.*
 	
 	private doSearch(Map search) {
 		searchAsJson = JsonOutput.toJson(search);
-		println"json query is " + searchAsJson
+		println "json query is ${searchAsJson}"
 		
 		//remember to URL encode your JSON string!
 		encoded = java.net.URLEncoder.encode(searchAsJson, "UTF-8")
+		
+		//construct the URL
 		documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
 		// now return lists one page at a time.
 		iterateDocs(documentSearchUrl)

@@ -56,7 +56,7 @@ In the above example, the 'json' variable is a JSON Map object that easily be ac
 #### Iterating over pages of results 
 The JSON response also contains a `_links` field that uses HATEOAS conventions to provide links to related content. For document listings and searches, links to `previous`, `next`, `first` and `last` pages are provided when needed.
 
-Using this approach we can iterate through pages of results:
+Using this approach we can iterate through pages of results, getting summary information for each document.
 
 ```groovy
     next_link = json._links.find{it.rel == 'next'};
@@ -127,3 +127,7 @@ To submit these queries, serialise them to JSON, URL escape and submit:
 	iterateDocs(documentSearchUrl)
 	
 ```
+
+### Retrieving document content
+
+Content can be retrieved from the endpoint /documents/{id} where {id} is a documentID
