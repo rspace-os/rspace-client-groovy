@@ -10,6 +10,12 @@ All the code listed here is in the project.
 
 For full details of our API spec please see https://your.rspace.com/public/apiDocs
 
+To run the example scripts in the scripts/ folder, `cd` to that folder, then run
+
+    groovy -classpath ../src -DapiKey=MyAPIKey ExampleScript.groovy 
+    
+ replacing `MyAPIKey` with your key, and `ExampleScript.groovy` with the name of the script you want to run.
+
 ### A basic query to list documents
 
 First of all we'll define our URL and get our key from a system property.
@@ -66,7 +72,7 @@ Using this approach we can iterate through pages of results, getting summary inf
 	}
 ```
 
-A complete example of this is the `iterateDocs` method in `DocumentSearchExamples.groovy`.
+A complete example of this is the `iterateDocs` method in `DocumentSearch.groovy`.
 
 
 ### Searching
