@@ -46,7 +46,7 @@ class DocumentSearch extends BaseClient {
 
 
     // retrieves documents in CSV format
-    def getDocuments (String url) {
+    def getDocumentsAsCsv (String url) {
         def http = new HTTPBuilder(url)
         http.request(GET, JSON) { req ->
             headers.'apiKey' = key
@@ -149,7 +149,7 @@ class DocumentSearch extends BaseClient {
                 [query: term, queryType:"form"]
             ]]
         def documentSearchUrl = generateSearchUrl (search)
-        getDocuments(documentSearchUrl)
+        getDocumentsAsCsv(documentSearchUrl)
     }
 
     void doSearch(Map search) {
