@@ -140,6 +140,7 @@ Content can be retrieved from the endpoint /documents/{id} where {id} is a docum
 Here is an example retrieving a document in CSV format taken  from `DocumentAsCSV.groovy` script:
 
 ```groovy
+
     //replace this with your RSpace URL
     rspaceUrl = "https://demo.researchspace.com/api/v1";
 
