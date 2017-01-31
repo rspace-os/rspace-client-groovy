@@ -18,6 +18,12 @@ abstract class BaseClient {
 
 	// by default we'll order results by name
 	def documents = rspaceUrl + "/documents?orderBy=name%20asc"
+	
+	// just 2 files per page in this example
+	
+	def filesUrl ( int pageSize) {
+		return rspaceUrl + "/files?pageSize=" + pageSize		
+	}
 
 	String generateSearchUrl (Map search) {
 		//generate JSON from search object
