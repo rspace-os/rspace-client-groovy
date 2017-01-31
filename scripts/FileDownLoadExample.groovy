@@ -12,7 +12,7 @@ rspaceUrl = "https://demo.researchspace.com/api/v1";
 key = System.getProperty("apiKey")
 
 // choose a folder to download into
-File downloadFolder = File.createTempDir();
+File downloadFolder = File.createTempDir()
 println ("Files will be downloaded to $downloadFolder.absolutePath")
 
 // this class has code to download files from RSpace to a folder

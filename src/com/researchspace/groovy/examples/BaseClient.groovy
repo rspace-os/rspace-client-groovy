@@ -36,5 +36,12 @@ abstract class BaseClient {
 		def documentSearchUrl = rspaceUrl + "/documents?advancedQuery="+encoded
 		return documentSearchUrl
 	}
+	
+	def handleError(response) {
+        response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
+        response.'404' = { resp -> println " Resource Not found " }
+        response.'429' = { resp -> println " Too many requests, please allow 1 request per second " }
+        response.'500' = { resp -> println " Internal server error " }
+	}
 
 }

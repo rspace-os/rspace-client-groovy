@@ -22,9 +22,7 @@ class DocumentAsCSV extends BaseClient {
                     getContentsAsCSV (docUrl)
                 }
             }
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'500' = { resp -> println " Internal server error " }
+            handleError(response)
         }
     }
     def getContentsAsCSV (String url) {
@@ -35,9 +33,7 @@ class DocumentAsCSV extends BaseClient {
                 println "Query response: ${content}"
                 
             }
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'500' = { resp -> println " Internal server error " }
+            handleError(response)
         }
     }
     

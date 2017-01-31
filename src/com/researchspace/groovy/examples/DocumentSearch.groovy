@@ -36,11 +36,8 @@ class DocumentSearch extends BaseClient {
                     iterateDocs(next_link.link)
                 }
             }
-            // handlers for error conditions
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'429' = { resp -> println " Too many requests, please allow 1 request per second " }
-            response.'500' = { resp -> println " Internal server error " }
+			handleError(response)
+          
         }
     }
 
@@ -61,11 +58,10 @@ class DocumentSearch extends BaseClient {
                     getContentsAsCSV (docUrl)
                 }
             }
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'500' = { resp -> println " Internal server error " }
+			handleError(response)         
         }
     }
+	
     /**
     * Gets document in CSV format
     */
@@ -75,7 +71,6 @@ class DocumentSearch extends BaseClient {
             headers.'apiKey' = key
             response.success = { resp, content ->
                 println "Query response: ${content}"
-
             }
             response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
             response.'404' = { resp -> println " Resource Not found " }

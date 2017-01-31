@@ -27,9 +27,7 @@ class FileDownloader extends BaseClient {
 				println "Downloaded successfully:"
 				downloadFolder.traverse  { println " $it.absolutePath " }
             }
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'500' = { resp -> println " Internal server error " }
+            handleError(response)
         }
     }
 	
@@ -44,11 +42,11 @@ class FileDownloader extends BaseClient {
 				def file = new File(downloadFolder, name).newOutputStream()
 				file << content
             }
-            response.'401' = { resp -> println " Not found or  unauthorised - are you sure your API key is correct?" }
-            response.'404' = { resp -> println " Resource Not found " }
-            response.'500' = { resp -> println " Internal server error " }
+            handleError(response)
         }
     }
+
+
     
     void searchByFormAndRetrieveAsCSV (String term) {
         def search = [terms:[[query: term, queryType:"form"]]]

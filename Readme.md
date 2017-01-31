@@ -157,4 +157,28 @@ Here is an example retrieving a document in CSV format taken  from `DocumentAsCS
 
 ### Getting attached files
 
-Here's an example where we download file attachments associated with some documents
+Here's an example where we download file attachments associated with some documents. The code is in `FileDownloader.groovy`. 
+
+```groovy
+
+    //construct a download URL from a file id (you can get this from files/ endpoint)
+    def url = rspaceUrl + "/files/" + file.id + "/file"
+    
+    // file name can also be retrieved from files/ listing
+    def name = "Myfile.txt" 
+    
+    // where you want the files to be downlaoded to
+    def downloadFolder = File.createTempDir()
+
+    def downloadFile (String url, String name, File downloadFolder) {
+        def http = new HTTPBuilder(url)
+        http.request(GET, "application/octet-stream") { req ->
+            headers.'apiKey' = key
+            response.success = { resp, content ->
+				def file = new File(downloadFolder, name).newOutputStream()
+				file << content
+            }
+            handleError(response)
+        }
+    }
+```
