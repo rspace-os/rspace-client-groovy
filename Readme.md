@@ -12,9 +12,14 @@ For full details of our API spec please see https://your.rspace.com/public/apiDo
 
 To run the example scripts in the scripts/ folder, `cd` to that folder, then run
 
-    groovy -classpath ../src -DapiKey=MyAPIKey ExampleScript.groovy 
+    groovy -classpath ../src -Dkey=MyAPIKey -Durl=https://my.researchspace.com ExampleScript.groovy 
     
- replacing `MyAPIKey` with your key, and `ExampleScript.groovy` with the name of the script you want to run.
+ replacing `MyAPIKey` with your key, `https://my.researchspace.com` with the URL of your RSpace instance and `ExampleScript.groovy` with the name of the script you want to run.
+ 
+ E.g.
+ 
+    groovy -classpath ../src -Dkey=abcdefgh -Durl=https://community.researchspace.com DocumentSearchExample.groovy
+     
 
 ### A basic query to list documents
 
@@ -27,11 +32,11 @@ First of all we'll define our URL and get our key from a system property.
     import static groovyx.net.http.ContentType.JSON
     import  groovy.json.*
 
-    //replace this with your RSpace URL
-    rspaceUrl = "https://community.researchspace.com/api/v1";
+    // from command line -D property
+    rspaceUrl = System.getProperty("url") + "/api/v1";
      
     //Set in your RSpace API key here via a -D command line property
-    key = System.getProperty("apiKey")
+    key = System.getProperty("key")
      
     // A Fixed delay between requests
     DELAY = 1000
@@ -65,6 +70,7 @@ The JSON response also contains a `_links` field that uses HATEOAS conventions t
 Using this approach we can iterate through pages of results, getting summary information for each document.
 
 ```groovy
+
     next_link = json._links.find{it.rel == 'next'};
     if (next_link != null) {
         println("next link is ${next_link.link}")
@@ -141,8 +147,7 @@ Here is an example retrieving a document in CSV format taken  from `DocumentAsCS
 
 ```groovy
 
-    //replace this with your RSpace URL
-    rspaceUrl = "https://demo.researchspace.com/api/v1";
+    rspaceUrl = System.getProperty("url") + "/api/v1";
 
     //Set in your RSpace API key here via a -D command line property
     key = System.getProperty("apiKey")
