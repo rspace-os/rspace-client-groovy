@@ -2,13 +2,13 @@
 
 This project shows some examples of calling the RSpace API from a Groovy script.
 
-To begin with you'll need an account on an RSpace server and an API key which you can get from your profile page.
+To begin with you'll need an account on an RSpace server and an API key which you can get from your profile page. *Please note that your RSpace server must be 1.41 or later to support API calls.*
 
 In these examples we'll be using the HttpBuilder library which provides an abstraction over lower-level libraries.
 
 All the code listed here is in the project. 
 
-For full details of our API spec please see https://your.rspace.com/public/apiDocs
+For full details of our API spec please visit our [Community site](https://community.researchspace.com/public/apiDocs) or, if you have your own RSpace installation, go to /public/apiDocs at that site.
 
 To run the example scripts in the scripts/ folder, `cd` to that folder, then run
 
