@@ -8,7 +8,7 @@ In these examples we'll be using the HttpBuilder library which provides an abstr
 
 All the code listed here is in the project. 
 
-For full details of our API spec please visit our [Community site](https://community.researchspace.com/public/apiDocs) or, if you have your own RSpace installation, go to /public/apiDocs at that site.
+For full details of our API specification please visit our [Community site](https://community.researchspace.com/public/apiDocs) or, if you have your own RSpace installation, go to /public/apiDocs at your site.
 
 To run the example scripts in the scripts/ folder, `cd` to that folder, then run
 
@@ -52,7 +52,6 @@ First of all we'll define our URL and get our key from a system property.
             println "Query response: ${json}"
         }
     }
-
 ```
 
 In the above example, the 'json' variable is a JSON Map object that easily be accessed for data:
@@ -61,7 +60,6 @@ In the above example, the 'json' variable is a JSON Map object that easily be ac
     
     println "Looking at page ${json.pageNumber}"
     json.documents.each  {println(String.format("%-50s%-20s%-20s", it.name, it.id, it.lastModified))}
-
 ```
 
 #### Iterating over pages of results 
