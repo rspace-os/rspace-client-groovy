@@ -12,6 +12,12 @@ abstract class BaseClient {
 	def rspaceUrl
 
 	def  key 
+	
+	public void setRspaceUrl (String url) {
+		if (!url.endsWith("/api/v1")) {
+			this.rspaceUrl = url  + "/api/v1"
+		}
+	}
 
 	// A Fixed DELAY_MILLIS between requests in millis
 	def DELAY_MILLIS = 1000

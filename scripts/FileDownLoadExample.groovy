@@ -5,11 +5,12 @@ import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
 import  groovy.json.*
 
-//replace this with your RSpace URL
-rspaceUrl = "https://demo.researchspace.com/api/v1";
-
-//Set in your RSpace API key here via a -D command line property
-key = System.getProperty("apiKey")
+String key = System.getProperty("key")?:""
+String rspaceUrl = System.getProperty("url")?:""
+if (key.empty || rspaceUrl.empty ){
+	println " Please supply a  key [${key.empty?'':'supplied'}] and a URL [$rspaceUrl]"
+	return
+}
 
 // choose a folder to download into
 File downloadFolder = File.createTempDir()

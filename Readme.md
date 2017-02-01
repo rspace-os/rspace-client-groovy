@@ -28,7 +28,7 @@ First of all we'll define our URL and get our key from a system property.
     import  groovy.json.*
 
     //replace this with your RSpace URL
-    rspaceUrl = "https://demo.researchspace.com/api/v1";
+    rspaceUrl = "https://community.researchspace.com/api/v1";
      
     //Set in your RSpace API key here via a -D command line property
     key = System.getProperty("apiKey")
