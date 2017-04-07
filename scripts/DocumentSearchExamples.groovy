@@ -18,7 +18,7 @@ DocumentSearch searcher = new DocumentSearch (key:key, rspaceUrl:rspaceUrl)
 searcher.searchByDateRangeLastModified("2016-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 searcher.searchByDateRangeCreated("2015-01-03T09:18:45.224Z", "2017-02-05T09:18:45.224Z")
 
-getDocsModifiedOn6thOr7thJuly = [operand:"or", terms:[
+getDocsModifiedOn6thOr7thJuly = [operator:"or", terms:[
 		[query:"2015-07-06", queryType:"lastModified"],
 		[query:"2015-07-07", queryType:"lastModified"]
 	]]

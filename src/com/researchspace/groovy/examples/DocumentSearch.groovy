@@ -19,6 +19,7 @@ class DocumentSearch extends BaseClient {
     // retrieves documents one page at a time by looking for URLs in 'next' links
     def iterateDocs (String url) {
         def http = new HTTPBuilder(url)
+		print "Getting from $url"
         http.request(GET, JSON) { req ->
             headers.'apiKey' = key
             response.success = { resp, json ->
@@ -119,7 +120,7 @@ class DocumentSearch extends BaseClient {
     */ 
     void searchByDateRangeLastModified (String iso8601DateFrom, String iso8601DateTo) {
         def search = [terms:[
-                [query: iso8601DateFrom+";" + iso8601DateTo, queryType:"created"]
+                [query: iso8601DateFrom+";" + iso8601DateTo, queryType:"lastModified"]
             ]]
         doSearch(search)
     }
