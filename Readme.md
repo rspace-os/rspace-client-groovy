@@ -2,7 +2,8 @@
 
 This project shows some examples of calling the RSpace API from a Groovy script.
 
-To begin with you'll need an account on an RSpace server and an API key which you can get from your profile page. *Please note that your RSpace server must be 1.41 or later to support API calls.*
+To begin with you'll need an account on an RSpace server and an API key which you can get from your profile page.
+ *Please note that your RSpace server must be 1.41 or later to support API calls. If you want to run post requests then your RSpace server must be 1.45 or later*.
 
 In these examples we'll be using the HttpBuilder library which provides an abstraction over lower-level libraries.
 
@@ -185,3 +186,48 @@ Here's an example where we download file attachments associated with some docume
         }
     }
 ```
+
+### Uploading content
+
+The script in [DocumentCreationAndFileUpload.groovy](scripts/DocumentCreationAndFileUpload.groovy) illustrates
+ how to create a document, upload a file and link a document to a file. It uses `DocumentPoster.groovy` as
+ a helper class.
+ 
+ ```groovy
+    DocumentPoster poster = new DocumentPoster (key: key, rspaceUrl: rspaceUrl)
+    def toCreate =[name:"SNP analysis", tags:"groovy,api,snp", fields:[ [content:"Some metadata"]]]
+	Map newDocument = poster.createDocument(toCreate)
+ ```
+ will create a new basic document with a name, some tags and initial content. The returned Map contains
+ keys and value corresponding to the returned JSON. By default content will be put in the 'API' folder.
+ 
+ You can specify a form  if you want to create a particular document type:
+ 
+ ```groovy
+    def toCreate =[
+         name:"SNP analysis", tags:"groovy,api,snp",
+         fields:[ [content:"Some metadata"]]
+         form:[id:2]]
+         ]
+ ```
+ 
+ Here's how to upload a file:
+ 
+ ```groovy
+    File fileToPost = new File("resources/2017-05-10_1670091041_CNVts.csv")
+    Map newFile = poster.uploadFile(fileToPost, "an optional  caption, can be null")
+ ```
+ 
+ which will return a representation of the created file.
+ 
+ To link a document to a file:
+ 
+  ```groovy
+    Map alteredDoc = poster.appendFileAttachment(newDocument, newFile.id)
+ ```
+ Pass in the new document and the id of the file to link to. The file link will be appended to the current content.
+ 
+ To put a link in the content using a PUT request to documents/{id} you just need to put the placeholder:
+ `<fileId=xxxx>` replacing 'xxxx' with the id of your uploaded file. RSpace will replace this with HTML of the
+  attachment link for viewing in a browser.
+ 
