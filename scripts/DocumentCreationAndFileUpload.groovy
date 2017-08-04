@@ -21,11 +21,14 @@ import  groovy.json.*
 
 	DocumentPoster poster = new DocumentPoster (key: key, rspaceUrl: rspaceUrl)
 	// create a new basic document 
+	println "Creating a new document"
 	def toCreate =[name:"SNP analysis", tags:"groovy,api,snp", fields:[ [content:"Some metadata"]]]
 	Map newDocument = poster.createDocument(toCreate)
 	//upload a file, this will go to the gallery initially
+	println "uploading a file"
 	Map newFile = poster.uploadFile(fileToPost, "some caption")
 	// attach file to document
+	println "Attaching file to document"
 	Map alteredDoc = poster.appendFileAttachment(newDocument, newFile.id)
 	println "Attachment link inserted into text:"
 	println "-----------------------------------"
