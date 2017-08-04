@@ -1,5 +1,7 @@
+import com.researchspace.api.clientmodel.DocumentSearchQuery.DocumentSearchQueryBuilder
 import com.researchspace.groovy.examples.*
 @Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7')
+@Grab('com.researchspace:rspace-client-java-model:1.1.1')
 import groovyx.net.http.*
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
