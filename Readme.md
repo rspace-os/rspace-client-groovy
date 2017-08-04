@@ -20,7 +20,8 @@ To run the example scripts in the scripts/ folder, `cd` to that folder, then run
  E.g.
  
     groovy -classpath ../src -Dkey=abcdefgh -Durl=https://community.researchspace.com DocumentSearchExample.groovy
-     
+   
+ Finally, you might need to configure your Grapes mechanism to pull in dependencies from MavenCentral.  
 
 ### A basic query to list documents
 
@@ -190,12 +191,13 @@ Here's an example where we download file attachments associated with some docume
 ### Uploading content
 
 The script in [DocumentCreationAndFileUpload.groovy](scripts/DocumentCreationAndFileUpload.groovy) illustrates
- how to create a document, upload a file and link a document to a file. It uses `DocumentPoster.groovy` as
+ how to create a document, upload a file and link a document to a file. It uses 
+ [DocumentPoster.groovy](src/com/researchspace/groovy/examples/DocumentPoster.groovy) as
  a helper class.
  
  ```groovy
     DocumentPoster poster = new DocumentPoster (key: key, rspaceUrl: rspaceUrl)
-    def toCreate =[name:"SNP analysis", tags:"groovy,api,snp", fields:[ [content:"Some metadata"]]]
+    def toCreate = [name:"SNP analysis", tags:"groovy,api,snp", fields:[ [content:"Some metadata"]]]
 	Map newDocument = poster.createDocument(toCreate)
  ```
  will create a new basic document with a name, some tags and initial content. The returned Map contains
@@ -207,7 +209,7 @@ The script in [DocumentCreationAndFileUpload.groovy](scripts/DocumentCreationAnd
     def toCreate =[
          name:"SNP analysis", tags:"groovy,api,snp",
          fields:[ [content:"Some metadata"]]
-         form:[id:2]]
+         form:[id:2]
          ]
  ```
  

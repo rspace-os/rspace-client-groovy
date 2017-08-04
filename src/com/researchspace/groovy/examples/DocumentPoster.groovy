@@ -1,6 +1,5 @@
 package com.researchspace.groovy.examples
 
-//@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7')
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -65,7 +64,7 @@ class DocumentPoster extends BaseClient {
 	def Map appendFileAttachment (Map basicDocument, Long fileId) {
 		String oldText = basicDocument.fields[0].content
 		String newText = oldText + "<fileId=" + fileId+">"
-		CloseableHttpClient client = HttpClients.createDefault();
+		CloseableHttpClient client = HttpClients.createDefault()
 		String body = JsonOutput.toJson([fields:[[content:newText]]])
 		println("body is $body")
 		HttpUriRequest req = RequestBuilder.put(rspaceUrl + "/documents/" + basicDocument.id)
