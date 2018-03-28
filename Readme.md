@@ -19,7 +19,7 @@ To run the example scripts in the scripts/ folder, `cd` to that folder, then run
  
  E.g.
  
-    groovy -classpath ../src -Dkey=abcdefgh -Durl=https://community.researchspace.com DocumentSearchExample.groovy
+    groovy -classpath ../src -Dkey=abcdefgh -Durl=https://community.researchspace.com DocumentSearchExamples.groovy
    
  Finally, you might need to configure your Grapes mechanism to pull in dependencies from MavenCentral.  
 
